@@ -10,7 +10,6 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QIcon, QColor, QPalette, QFont
 
 class CommandExecutor(QMainWindow):
-    # Variabile per il percorso delle icone
     icon_path = ''  # Sostituisci con il percorso della cartella in cui salvi le immagini png
 
     def __init__(self):
@@ -130,11 +129,10 @@ class CommandExecutor(QMainWindow):
         # Set up timer to refresh the UI every 5 seconds
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.refresh_ui)
-        self.timer.start(5000)  # 5000 ms = 5 seconds
+        self.timer.start(5000) 
 
     def refresh_ui(self):
         """Refresh the interface every 5 seconds to avoid lag."""
-        # In a real app, you might want to update some UI elements here
         self.update()  # This refreshes the UI
 
     def show_main_menu(self):
