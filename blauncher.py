@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import os
 import subprocess
@@ -9,6 +10,9 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QIcon, QColor, QPalette, QFont
 
 class CommandExecutor(QMainWindow):
+    # Variabile per il percorso delle icone
+    icon_path = ''  # Sostituisci con il percorso della cartella in cui salvi le immagini png
+
     def __init__(self):
         super().__init__()
         self.init_ui()
@@ -46,12 +50,12 @@ class CommandExecutor(QMainWindow):
         self.main_layout.addWidget(self.system_menu_button)
 
         self.application_menu_button = QPushButton("Applications")
-        self.application_menu_button.setIcon(QIcon('app-icon.png'))  # Add an icon here
+        self.application_menu_button.setIcon(QIcon(os.path.join(self.icon_path, 'app-icon.png')))  # Using the icon path
         self.application_menu_button.clicked.connect(self.show_application_menu)
         self.main_layout.addWidget(self.application_menu_button)
 
         self.close_button = QPushButton(" Exit ")
-        self.close_button.setIcon(QIcon('close-icon.png'))  # Add an icon here
+        self.close_button.setIcon(QIcon(os.path.join(self.icon_path, 'close-icon.png')))  # Using the icon path
         self.close_button.clicked.connect(self.close)
         self.main_layout.addWidget(self.close_button)
 
@@ -69,22 +73,22 @@ class CommandExecutor(QMainWindow):
         self.system_layout.addWidget(self.system_title)
 
         self.shutdown_button = QPushButton("")
-        self.shutdown_button.setIcon(QIcon('system-icon.png'))  # Add an icon here
+        self.shutdown_button.setIcon(QIcon(os.path.join(self.icon_path, 'system-icon.png')))  # Using the icon path
         self.shutdown_button.clicked.connect(lambda: self.execute_command("shutdown"))
         self.system_layout.addWidget(self.shutdown_button)
 
         self.reboot_button = QPushButton("")
-        self.reboot_button.setIcon(QIcon('reboot-icon.png'))  # Add an icon here
+        self.reboot_button.setIcon(QIcon(os.path.join(self.icon_path, 'reboot-icon.png')))  # Using the icon path
         self.reboot_button.clicked.connect(lambda: self.execute_command("reboot"))
         self.system_layout.addWidget(self.reboot_button)
 
         self.suspend_button = QPushButton("")
-        self.suspend_button.setIcon(QIcon('suspend-icon.png'))  # Add an icon here
+        self.suspend_button.setIcon(QIcon(os.path.join(self.icon_path, 'suspend-icon.png')))  # Using the icon path
         self.suspend_button.clicked.connect(lambda: self.execute_command("suspend"))
         self.system_layout.addWidget(self.suspend_button)
 
         self.back_button_system = QPushButton("")
-        self.back_button_system.setIcon(QIcon('back-icon.png'))  # Add an icon here
+        self.back_button_system.setIcon(QIcon(os.path.join(self.icon_path, 'back-icon.png')))  # Using the icon path
         self.back_button_system.clicked.connect(self.show_main_menu)
         self.system_layout.addWidget(self.back_button_system)
 
@@ -114,7 +118,7 @@ class CommandExecutor(QMainWindow):
         self.application_layout.addWidget(self.thunar_button)
 
         self.back_button_app = QPushButton("")
-        self.back_button_app.setIcon(QIcon('back-icon.png'))  # Add an icon here
+        self.back_button_app.setIcon(QIcon(os.path.join(self.icon_path, 'back-icon.png')))  # Using the icon path
         self.back_button_app.clicked.connect(self.show_main_menu)
         self.application_layout.addWidget(self.back_button_app)
 
