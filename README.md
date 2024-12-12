@@ -32,8 +32,7 @@ dare errori imprevisti o fare danni al sistema)
  - spostati nella cartella in cui hai il file .py usando cd
  - avvia blauncher usando il comando
 
-#
-    python3 /percorso/blauncher.py
+    chmod +x blauncher.sh
 
 # Scopo
 
