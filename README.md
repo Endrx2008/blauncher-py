@@ -30,7 +30,7 @@ dare errori imprevisti o fare danni al sistema)
 
  - apri una finestra di terminale
  - spostati nella cartella in cui hai il file .py usando cd
- - avvia blauncher usando il comando
+ - avvia blauncher usando il comando:
 
     chmod +x blauncher.sh
 
