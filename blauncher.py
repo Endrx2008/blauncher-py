@@ -151,10 +151,10 @@ class CommandExecutor(QMainWindow):
         def run_command():
             try:
                 if command == "shutdown":
-                    os.system("sudo shutdown now")
+                    os.system("kitty -e sudo shutdown now")
                     response = "Shutdown initiated"
                 elif command == "reboot":
-                    os.system("sudo shutdown -r now")
+                    os.system("kitty -e sudo shutdown -r now")
                     response = "Reboot initiated"
                 elif command == "suspend":
                     os.system("systemctl suspend")
