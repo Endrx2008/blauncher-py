@@ -1,86 +1,179 @@
-import subprocess
+import sys
 import os
-import tkinter as tk
-from tkinter import messagebox
+import subprocess
+import threading
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QPushButton, QVBoxLayout, QLabel, QWidget, QStackedWidget, QMessageBox
+)
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QIcon, QColor, QPalette, QFont
 
-def Menu_tab():
-    # Funzione che crea e mostra il menu iniziale
-    for widget in frame.winfo_children():
-        widget.destroy()  # Pulisce il frame prima di aggiungere il menu
+class CommandExecutor(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
 
-    # Aggiungi le opzioni del menu principale
-    label_menu = tk.Label(frame, text="Menu", font=("Arial", 16))
-    label_menu.pack(pady=10)
+    def init_ui(self):
+        self.setWindowTitle("Command Executor GUI")
+        self.setGeometry(100, 100, 500, 400)
+        
+        # Apply a dark palette for a modern look
+        dark_palette = QPalette()
+        dark_palette.setColor(QPalette.Background, QColor(30, 30, 30))
+        dark_palette.setColor(QPalette.Button, QColor(50, 50, 50))
+        dark_palette.setColor(QPalette.ButtonText, QColor(255, 255, 255))
+        dark_palette.setColor(QPalette.Window, QColor(50, 50, 50))
+        self.setPalette(dark_palette)
 
-    # Creazione delle opzioni nel menu
-    button_option1 = tk.Button(frame, text="Shutdown", command=lambda: os.system ("sudo shutdown now"))
-    button_option1.pack(pady=5)
+        # Central widget and stacked layout
+        self.central_widget = QStackedWidget()
+        self.setCentralWidget(self.central_widget)
 
-    button_option2 = tk.Button(frame, text="Reboot", command=lambda: os.system ("sudo shutdown -r now"))
-    button_option2.pack(pady=5)
+        # Main menu
+        self.main_menu = QWidget()
+        self.main_layout = QVBoxLayout()
+        self.main_menu.setLayout(self.main_layout)
 
-    button_option2 = tk.Button(frame, text="Suspend", command=lambda: os.system ("systemctl suspend"))
-    button_option2.pack(pady=5)
+        # Add title to main menu
+        self.main_title = QLabel("Home")
+        self.main_title.setFont(QFont("Arial", 20, QFont.Bold))
+        self.main_title.setAlignment(Qt.AlignCenter)
+        self.main_layout.addWidget(self.main_title)
 
-    # Pulsante per tornare indietro al menu principale
-    button_exit = tk.Button(frame, text="Back", command=lambda: main())  # Torna al menu
-    button_exit.pack(pady=5)
+        # Buttons for submenus with modern icons
+        self.system_menu_button = QPushButton("Sys manager")
+        self.system_menu_button.clicked.connect(self.show_system_menu)
+        self.main_layout.addWidget(self.system_menu_button)
 
-def Ap_tab():
-    # Funzione che crea e mostra il menu del sottomenu
-    for widget in frame.winfo_children():
-        widget.destroy()  # Pulisce il frame prima di aggiungere il sottomenu
+        self.application_menu_button = QPushButton("Applications")
+        self.application_menu_button.setIcon(QIcon('app-icon.png'))  # Add an icon here
+        self.application_menu_button.clicked.connect(self.show_application_menu)
+        self.main_layout.addWidget(self.application_menu_button)
 
-    # Aggiungi le opzioni del sottomenu
-    label_menu = tk.Label(frame, text="Launcher", font=("Arial", 16))
-    label_menu.pack(pady=10)
+        self.close_button = QPushButton(" Exit ")
+        self.close_button.setIcon(QIcon('close-icon.png'))  # Add an icon here
+        self.close_button.clicked.connect(self.close)
+        self.main_layout.addWidget(self.close_button)
 
-    # Creazione delle opzioni nel sottomenu
-    button_option1 = tk.Button(frame, text="Firefox", command=lambda: subprocess.run(["firefox"]))
-    button_option1.pack(pady=5)
+        self.central_widget.addWidget(self.main_menu)
 
-    button_option2 = tk.Button(frame, text="Terminal", command=lambda: subprocess.run(["kitty"]))
-    button_option2.pack(pady=5)
+        # System commands menu
+        self.system_menu = QWidget()
+        self.system_layout = QVBoxLayout()
+        self.system_menu.setLayout(self.system_layout)
 
-    button_option3 = tk.Button(frame, text="Thunar", command=lambda: subprocess.run(["Thunar"]))
-    button_option3.pack(pady=5)
+        # Add title to system menu
+        self.system_title = QLabel("Sys Commands")
+        self.system_title.setFont(QFont("Arial", 18, QFont.Bold))
+        self.system_title.setAlignment(Qt.AlignCenter)
+        self.system_layout.addWidget(self.system_title)
 
-    # Pulsante per tornare indietro al menu principale
-    button_exit = tk.Button(frame, text="Back", command=lambda: main())  # Torna al menu
-    button_exit.pack(pady=5)
+        self.shutdown_button = QPushButton("")
+        self.shutdown_button.setIcon(QIcon('system-icon.png'))  # Add an icon here
+        self.shutdown_button.clicked.connect(lambda: self.execute_command("shutdown"))
+        self.system_layout.addWidget(self.shutdown_button)
 
-# Funzione per avviare le applicazioni
-def main():
-    # Funzione che crea e mostra il menu del sottomenu
-    for widget in frame.winfo_children():
-        widget.destroy()  # Pulisce il frame prima di aggiungere il sottomenu
+        self.reboot_button = QPushButton("")
+        self.reboot_button.setIcon(QIcon('reboot-icon.png'))  # Add an icon here
+        self.reboot_button.clicked.connect(lambda: self.execute_command("reboot"))
+        self.system_layout.addWidget(self.reboot_button)
 
-    # Aggiungi le opzioni del sottomenu
-    label_menu = tk.Label(frame, text="Home", font=("Arial", 16))
-    label_menu.pack(pady=10)
+        self.suspend_button = QPushButton("")
+        self.suspend_button.setIcon(QIcon('suspend-icon.png'))  # Add an icon here
+        self.suspend_button.clicked.connect(lambda: self.execute_command("suspend"))
+        self.system_layout.addWidget(self.suspend_button)
 
-    # Creazione delle opzioni nel sottomenu
-    button_option1 = tk.Button(frame, text="Boot Menu", command=lambda: Menu_tab())
-    button_option1.pack(pady=5)
+        self.back_button_system = QPushButton("")
+        self.back_button_system.setIcon(QIcon('back-icon.png'))  # Add an icon here
+        self.back_button_system.clicked.connect(self.show_main_menu)
+        self.system_layout.addWidget(self.back_button_system)
 
-    button_option2 = tk.Button(frame, text="Launcher", command=lambda: Ap_tab())
-    button_option2.pack(pady=5)
+        self.central_widget.addWidget(self.system_menu)
 
-# Creazione della finestra principale
-root = tk.Tk()
-root.title("MENU - Menu")
-root.geometry("300x300")
+        # Applications menu
+        self.application_menu = QWidget()
+        self.application_layout = QVBoxLayout()
+        self.application_menu.setLayout(self.application_layout)
 
-# Creazione di un frame per i pulsanti
-frame = tk.Frame(root)
-frame.pack(pady=20)
+        # Add title to application menu
+        self.application_title = QLabel("App Launcher")
+        self.application_title.setFont(QFont("Arial", 18, QFont.Bold))
+        self.application_title.setAlignment(Qt.AlignCenter)
+        self.application_layout.addWidget(self.application_title)
 
-# Creazione del pulsante per uscire dall'app
-exit_button = tk.Button(root, text="Esci", command=root.quit)
-exit_button.pack(pady=20)
+        self.firefox_button = QPushButton("Firefox")
+        self.firefox_button.clicked.connect(lambda: self.execute_command("firefox"))
+        self.application_layout.addWidget(self.firefox_button)
 
-# start della funzione principale
-main()
+        self.terminal_button = QPushButton("Terminal")
+        self.terminal_button.clicked.connect(lambda: self.execute_command("terminal"))
+        self.application_layout.addWidget(self.terminal_button)
 
-# Avvio della finestra grafica
-root.mainloop()
+        self.thunar_button = QPushButton("Thunar")
+        self.thunar_button.clicked.connect(lambda: self.execute_command("thunar"))
+        self.application_layout.addWidget(self.thunar_button)
+
+        self.back_button_app = QPushButton("")
+        self.back_button_app.setIcon(QIcon('back-icon.png'))  # Add an icon here
+        self.back_button_app.clicked.connect(self.show_main_menu)
+        self.application_layout.addWidget(self.back_button_app)
+
+        self.central_widget.addWidget(self.application_menu)
+
+        # Show main menu by default
+        self.central_widget.setCurrentWidget(self.main_menu)
+
+        # Set up timer to refresh the UI every 5 seconds
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.refresh_ui)
+        self.timer.start(5000)  # 5000 ms = 5 seconds
+
+    def refresh_ui(self):
+        """Refresh the interface every 5 seconds to avoid lag."""
+        # In a real app, you might want to update some UI elements here
+        self.update()  # This refreshes the UI
+
+    def show_main_menu(self):
+        self.central_widget.setCurrentWidget(self.main_menu)
+
+    def show_system_menu(self):
+        self.central_widget.setCurrentWidget(self.system_menu)
+
+    def show_application_menu(self):
+        self.central_widget.setCurrentWidget(self.application_menu)
+
+    def execute_command(self, command):
+        """Execute the command in a separate thread to avoid blocking the UI."""
+        def run_command():
+            try:
+                if command == "shutdown":
+                    os.system("sudo shutdown now")
+                    response = "Shutdown initiated"
+                elif command == "reboot":
+                    os.system("sudo shutdown -r now")
+                    response = "Reboot initiated"
+                elif command == "suspend":
+                    os.system("systemctl suspend")
+                    response = "Suspend initiated"
+                elif command == "firefox":
+                    subprocess.run(["firefox"], check=True)
+                    response = "Firefox launched"
+                elif command == "terminal":
+                    subprocess.run(["kitty"], check=True)
+                    response = "Terminal launched"
+                elif command == "thunar":
+                    subprocess.run(["Thunar"], check=True)
+                    response = "Thunar launched"
+                else:
+                    response = "Unknown command"
+            except Exception as e:
+                response = f"Error: {str(e)}"
+
+        # Run the command in a separate thread to avoid blocking the UI
+        threading.Thread(target=run_command, daemon=True).start()
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    executor = CommandExecutor()
+    executor.show()
+    sys.exit(app.exec_())
