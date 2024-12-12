@@ -21,6 +21,20 @@ ai neofiti della shel bash
 (queste non sono vere dipendenze, bensì applicazioni che il codice va ad eseguire, se assenti il programma potrebbe crashare,
 dare errori imprevisti o fare danni al sistema)
 
+# configurazione
+ - salva dove ti è piu comodo il file .py
+ - crea una cartella dove salvare le immagini png
+ - salva le immagini png nella cartella
+ - modifica il file .py con un editor di codice o di testo
+ - sostituisci il percorso delle immagini png come indicato nella linea 14 del codice .py
+
+ - apri una finestra di terminale
+ - spostati nella cartella in cui hai il file .py usando cd
+ - avvia blauncher usando il comando
+
+#
+    python3 /percorso/blauncher.py
+
 # Scopo
 
 L' app è stata creata per facilitare l'avvio rapido delle applicazioni in sistemi linux (nel mio caso debian 12)
