@@ -3,10 +3,13 @@
 Questo codice python è stato creato per avviare rapidamente alcune applicazioni su Linux tramite un menu interattivo.
 Permette di scegliere tra:
 
- - Firefox (browser)
- - Kitty (terminal)
- - Thunar (file manager)
- - Gparted (gestore partizioni)
+- Discord
+- Okular
+- Firefox
+- Gimp
+- Vscodium
+- Arduino-IDE
+- Pcmanfm-qt
 
 inoltre è stata aggiunta un opzione menù per spegnere/riavviare/sospendere il sistema, in modo da agevolare le operazioni
 ai neofiti della shel bash
