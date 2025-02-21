@@ -12,14 +12,15 @@ inoltre è stata aggiunta un opzione menù per spegnere/riavviare/sospendere il 
 ai neofiti della shel bash
 
 # Dipendenze
+Tutte le applicazioni che il codice va ad eseguire, qui elencate (se assenti il programma potrebbe crashare o dare errori imprevisti)
 
- - Firefox (browser)
- - Kitty (terminal)
- - Thunar (file manager)
- - Gparted (gestore partizioni)
-
-(queste non sono vere dipendenze, bensì applicazioni che il codice va ad eseguire, se assenti il programma potrebbe crashare,
-dare errori imprevisti o fare danni al sistema)
+- Discord
+- Okular
+- Firefox
+- Gimp
+- Vscodium
+- Arduino-IDE
+- Pcmanfm-qt
 
 # configurazione
  - salva dove ti è piu comodo il file .py
