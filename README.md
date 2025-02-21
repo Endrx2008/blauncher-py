@@ -17,13 +17,13 @@ ai neofiti della shel bash
 # Dipendenze
 Tutte le applicazioni che il codice va ad eseguire, qui elencate (se assenti il programma potrebbe crashare o dare errori imprevisti)
 
-- Discord
-- Okular
-- Firefox
-- Gimp
-- Vscodium
-- Arduino-IDE
-- Pcmanfm-qt
+- Discord  https://discord.com/
+- Okular  https://okular.kde.org
+- Firefox  https://www.mozilla.org/it/firefox/new/
+- Gimp  https://www.gimp.org/downloads/
+- Vscodium  https://vscodium.com/
+- Arduino-IDE  https://www.arduino.cc/en/software
+- Pcmanfm-qt  https://github.com/lxqt/pcmanfm-qt
 
 # configurazione
  - salva dove ti è piu comodo il file .py
